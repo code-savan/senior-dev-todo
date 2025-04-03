@@ -1,0 +1,385 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 min-h-screen text-gray-800 font-sans;
+  }
+
+  /* iOS-like styling for mobile */
+  @media (max-width: 640px) {
+    body {
+      @apply bg-white;
+      /* Safe area insets */
+      padding-top: env(safe-area-inset-top, 0);
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      padding-left: env(safe-area-inset-left, 0);
+      padding-right: env(safe-area-inset-right, 0);
+    }
+
+    /* For iOS notch/dynamic island spacing */
+    .h-safe-top {
+      height: env(safe-area-inset-top, 0);
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+}
+
+@layer components {
+  .main-content {
+    @apply p-6 sm:p-8 min-h-screen max-w-7xl mx-auto;
+  }
+
+  /* iOS-style mobile container */
+  @media (max-width: 640px) {
+    .main-content {
+      @apply p-4 pb-20;
+    }
+  }
+
+  /* iOS-style bottom nav for mobile */
+  .mobile-bottom-nav {
+    @apply hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-3 z-40;
+  }
+
+  @media (max-width: 640px) {
+    .mobile-bottom-nav {
+      @apply flex justify-around items-center;
+    }
+  }
+
+  .mobile-nav-button {
+    @apply flex flex-col items-center justify-center text-gray-500;
+  }
+
+  .mobile-nav-button.active {
+    @apply text-primary;
+  }
+
+  .mobile-nav-icon {
+    @apply mb-1 text-xl;
+  }
+
+  .mobile-nav-label {
+    @apply text-xs;
+  }
+
+  .todo-item-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-5 relative transition-all duration-200 cursor-pointer;
+  }
+
+  /* iOS-style card for mobile */
+  @media (max-width: 640px) {
+    .todo-item-card {
+      @apply rounded-2xl shadow mx-0 my-3 border-gray-100;
+    }
+
+    /* iOS-style list view */
+    .grid {
+      @apply block;
+    }
+
+    .todo-item-card {
+      @apply rounded-lg shadow-none border-0 border-b border-gray-100 py-3 my-0;
+      position: relative;
+    }
+
+    .todo-item-card::before {
+      @apply absolute left-0 h-full w-1;
+    }
+
+    /* iOS-specific styling */
+    .todo-title {
+      @apply text-base;
+    }
+
+    .todo-card-content {
+      @apply text-xs;
+    }
+
+    .search-input {
+      @apply rounded-xl bg-gray-100 border-transparent text-sm;
+    }
+
+    .modal-content {
+      @apply rounded-t-2xl rounded-b-none p-6 pb-8 max-w-full absolute bottom-0 left-0 right-0;
+      animation: slide-up 0.3s ease;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    /* Add iOS-style momentum scrolling */
+    .modal-content {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Add safe area bottom padding */
+    .modal-content {
+      padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Style the modal header to stick to the top when scrolling */
+    .modal-header {
+      @apply sticky top-0 z-10 bg-white py-2;
+      margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+      padding: 0 1.5rem;
+      border-bottom: 1px solid transparent;
+    }
+
+    /* Show border on header when scrolled */
+    .modal-content.scrolled .modal-header {
+      border-bottom-color: #f0f0f0;
+    }
+
+    .modal-overlay {
+      @apply bg-black bg-opacity-30;
+    }
+
+    .tab-button {
+      @apply rounded-full text-center py-2 px-4 text-sm font-medium;
+    }
+
+    .date-select-wrapper {
+      @apply rounded-xl bg-gray-100 border-transparent text-sm;
+    }
+
+    .timer-button {
+      @apply rounded-xl;
+    }
+
+    .add-button, .secondary-button {
+      @apply rounded-xl;
+    }
+
+    .todo-input {
+      @apply rounded-xl bg-gray-50 border-gray-100;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .todo-item-card::before {
+    @apply content-[''] absolute top-0 left-0 w-2 h-full transition-all duration-300;
+  }
+
+  .todo-item-card.meeting::before {
+    @apply bg-blue-400;
+  }
+
+  .todo-item-card.branding::before {
+    @apply bg-purple-400;
+  }
+
+  .todo-item-card.client::before {
+    @apply bg-amber-400;
+  }
+
+  .todo-item-card.planer::before {
+    @apply bg-pink-400;
+  }
+
+  .todo-item-card.treatment::before {
+    @apply bg-green-400;
+  }
+
+  .todo-item-card.expired::before {
+    @apply bg-red-500;
+  }
+
+  .todo-card-content {
+    @apply mb-4 text-sm text-gray-600;
+  }
+
+  .todo-card-time {
+    @apply text-xs text-gray-500 font-medium;
+  }
+
+  .tab-button {
+    @apply px-6 py-3 font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-800 transition-colors;
+  }
+
+  .tab-button.active {
+    @apply border-primary text-primary font-semibold;
+  }
+
+  .search-input {
+    @apply w-full px-4 py-3 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white text-gray-700 shadow-sm;
+  }
+
+  .add-button {
+    @apply bg-primary text-white rounded-lg px-4 py-3 flex items-center gap-2 font-medium hover:bg-primary/90 transition-all shadow-sm hover:shadow-md;
+  }
+
+  .secondary-button {
+    @apply bg-white text-gray-700 border border-gray-300 rounded-lg px-4 py-3 flex items-center gap-2 font-medium hover:bg-gray-50 transition-all shadow-sm;
+  }
+
+  .todo-input {
+    @apply w-full px-4 py-3 text-gray-700 bg-white border border-gray-200 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 shadow-sm;
+  }
+
+  .card-menu-button {
+    @apply p-2 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100 transition-colors;
+  }
+
+  .todo-checkbox {
+    @apply w-5 h-5 rounded-md text-primary focus:ring-primary focus:ring-2 cursor-pointer transition-all duration-200;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-opacity duration-300;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-2xl p-6 shadow-xl w-full max-w-md mx-auto;
+  }
+
+  .modal-header {
+    @apply flex justify-between items-center mb-5;
+  }
+
+  .modal-close-button {
+    @apply p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors;
+  }
+
+  .modal-enter {
+    @apply opacity-0 scale-95;
+  }
+
+  .modal-enter-active {
+    @apply opacity-100 scale-100 transition-all duration-300;
+  }
+
+  .modal-exit {
+    @apply opacity-100 scale-100;
+  }
+
+  .modal-exit-active {
+    @apply opacity-0 scale-95 transition-all duration-200;
+  }
+
+  .timer-section {
+    @apply mt-3 mb-4 bg-gray-50 p-3 rounded-lg border border-gray-100;
+  }
+
+  .timer-section.paused {
+    @apply bg-amber-50;
+  }
+
+  .timer-button {
+    @apply px-3 py-1.5 text-xs font-medium rounded transition-all hover:shadow-sm;
+  }
+
+  .timer-button.start {
+    @apply bg-green-100 text-green-700 hover:bg-green-200;
+  }
+
+  .timer-button.continue {
+    @apply bg-amber-100 text-amber-700 hover:bg-amber-200;
+  }
+
+  .timer-button.pause {
+    @apply bg-amber-100 text-amber-700 hover:bg-amber-200;
+  }
+
+  .timer-button.reset {
+    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+  }
+
+  .date-select-wrapper {
+    @apply flex items-center px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm hover:shadow transition-all cursor-pointer;
+  }
+
+  .date-picker {
+    @apply text-base font-medium border-none focus:ring-0 focus:outline-none cursor-pointer bg-transparent;
+  }
+
+  .category-badge {
+    @apply text-xs px-2 py-1 rounded-full font-medium bg-opacity-20 inline-flex items-center;
+  }
+
+  .category-badge.meeting {
+    @apply bg-blue-100 text-blue-700;
+  }
+
+  .category-badge.branding {
+    @apply bg-purple-100 text-purple-700;
+  }
+
+  .category-badge.client {
+    @apply bg-amber-100 text-amber-700;
+  }
+
+  .category-badge.planer {
+    @apply bg-pink-100 text-pink-700;
+  }
+
+  .category-badge.treatment {
+    @apply bg-green-100 text-green-700;
+  }
+
+  .time-display {
+    @apply inline-flex items-center text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded;
+  }
+
+  .todo-title {
+    @apply font-medium text-gray-800 truncate flex items-center;
+  }
+
+  .completed .todo-title {
+    @apply line-through text-gray-400;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
